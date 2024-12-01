@@ -1,0 +1,42 @@
+<%- include('./partials/header.ejs'); -%>
+<main>
+  <h1 class="page-title">Edit Book</h1>
+  <form action="/edit/<%= book.id %>" method="post" class="edit-book-form">
+    <div class="form-row">
+      <input
+        type="text"
+        name="title"
+        value="<%= book.title %>"
+        placeholder="Title"
+        required
+      />
+      <input
+        type="text"
+        name="author"
+        value="<%= book.author %>"
+        placeholder="Author"
+        required
+      />
+    </div>
+    <div class="form-row">
+      <input
+        type="number"
+        name="rating"
+        value="<%= book.rating %>"
+        placeholder="Rating (0-5)"
+        min="0"
+        max="5"
+      />
+      <input
+        type="date"
+        name="date_read"
+        value="<%= book.date_read ? book.date_read.toISOString().split('T')[0] : '' %>"
+      />
+    </div>
+    <div class="form-row">
+      <textarea name="review" placeholder="Review" rows="3"><%= book.review %></textarea>
+    </div>
+    <button type="submit">Update Book</button>
+  </form>
+</main>
+<%- include('./partials/footer.ejs'); -%>

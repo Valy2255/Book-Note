@@ -1,0 +1,59 @@
+<%- include('./partials/header.ejs'); -%>
+<main>
+    <h1 class="page-title">Book Notes</h1>
+    <section class="add-book-section">
+        <h2>Add a New Book</h2>
+        <form action="/add" method="post" class="add-book-form">
+            <input type="text" name="title" placeholder="Title" required />
+            <input type="text" name="author" placeholder="Author" required />
+            <input type="text" name="isbn" placeholder="ISBN (for cover)" />
+            <input type="number" name="rating" placeholder="Rating (0-5)" min="0" max="5" />
+            <textarea name="review" placeholder="Review" rows="3"></textarea>
+            <input type="date" name="date_read" placeholder="Date Read" />
+            <button type="submit">Add Book</button>
+        </form>
+    </section>
+
+    <section class="book-list-section">
+        <h2>My Books</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Cover</th>
+                    <th>Rating</th>
+                    <th>Review</th>
+                    <th>Date Read</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% books.forEach(book => { %>
+                <tr>
+                    <td><%= book.title %></td>
+                    <td><%= book.author %></td>
+                    <td>
+                        <% if (book.cover_url) { %>
+                        <img src="<%= book.cover_url %>" alt="<%= book.title %> Cover" class="book-cover">
+                        <% } else { %>
+                        <span>No Cover</span>
+                        <% } %>
+                    </td>
+                    <td><%= book.rating %></td>
+                    <td><%= book.review %></td>
+                    <td><%= book.date_read ? book.date_read : 'Not Specified' %></td>
+                    <td class="actions">
+                        <form action="/delete" method="post">
+                            <input type="hidden" name="id" value="<%= book.id %>">
+                            <button type="submit" class="delete-button">Delete</button>
+                        </form>
+                        <a href="/edit/<%= book.id %>" class="edit-button">Edit</a>
+                    </td>
+                </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </section>
+</main>
+<%- include('./partials/footer.ejs'); -%>
